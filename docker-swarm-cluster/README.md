@@ -1,11 +1,16 @@
 # Docker Swarm Cluster
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fdocker-swarm-cluster%2Fazuredeploy.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcnadeau%2Fazure-quickstart-templates%2Fmaster%2Fdocker-swarm-cluster%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fdocker-swarm-cluster%2Fazuredeploy.json" target="_blank">
+<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fcnadeau%2Fazure-quickstart-templates%2Fmaster%2Fdocker-swarm-cluster%2Fazuredeploy.json" target="_blank">
     <img src="http://armviz.io/visualizebutton.png"/>
 </a>
+
+- [Swarm Managers](#swarm-managers)
+    - [How to SSH into Swarm Manager Nodes](#how-to-ssh-into-swarm-manager-nodes)
+- [Swarm Worker Nodes](#swarm-worker-nodes)
+    - [How to SSH into Swarm Worker Nodes](#how-to-ssh-into-swarm-worker-nodes)
 
 This template deploys a [Docker Swarm](http://docs.docker.com/swarm) cluster on
 Azure with 3 Swarm managers and specified number of Swarm nodes in the location
@@ -29,7 +34,7 @@ The cluster will be interconnected with Docker multi-host networking setup
 so that you can easily create overlay networks with `docker network create`
 command.
 
-#### Swarm Managers
+# Swarm Managers
 
 The template provisions 3 Swarm manager VMs that use
 [Consul](https://consul.io/) for discovery and leader election. These VMs are in
@@ -45,7 +50,7 @@ Consul agents running in server mode on each manager VM:
 
 > [![](img/cluster-leader-election.png)](img/cluster-leader-election.png)
 
-#### How to SSH into Swarm Manager Nodes
+## How to SSH into Swarm Manager Nodes
 
 Swarm manager nodes (`swarm-master-*` VMs) do not have public IP addresses.
 However they are NAT'ted behind an Azure Load Balancer. You can SSH into them
@@ -60,7 +65,7 @@ Port numbers of each master VM is described in the following table:
 | `swarm-master-1`  | `ssh <username>@<addr> -p 2201` |
 | `swarm-master-2`  | `ssh <username>@<addr> -p 2202` |
 
-#### Swarm Worker Nodes
+# Swarm Worker Nodes
 
 You can configure `nodeCount` parameter to create as many Swarm worker instances
 you like. Each Swarm worker VM is of size `Standard_A2`.
@@ -89,12 +94,22 @@ on master nodes:
 
 > [![](img/cluster-node-discovery.png)](img/cluster-node-discovery.png)
 
-#### How to SSH into Swarm Worker Nodes
+## How to SSH into Swarm Worker Nodes
 
 Since Swarm worker nodes do not have public IP addresses, you first need to SSH
 into Swarm manager VMs (described above) to SSH into Swarm nodes.
 
-You just need to use `ssh -A` to SSH into one of the masters, and from that
+To be sure your ssh key credentials are passed from:
+
+dev machine => Swarm master => Swarm node
+
+You need to start an ssh-agent and add your key:
+
+```sh
+eval $(ssh-agent) && ssh-add ~/.ssh/id_ras
+```
+
+Then you just need to use `ssh -A` to SSH into one of the masters, and from that
 point on you can reach any other VM in the cluster as shown below:
 
 ```sh
@@ -127,7 +142,7 @@ If the template successfully deploys, it will have output values
 The `sshTunnelCmd` command will help you create a SSH tunnel to Docker Swarm
 Manager from your machine (this command will keep running with no output):
 
-    $ ssh -L 2375:swarm-master-0:2375 -N core@swarm-<<DNSNAME>>-manage.westus.cloudapp.azure.com -p 2200
+    $ ssh -L 2375:swarm-master-0:2375 -N core@<<DNSNAME>>.cloudapp.azure.com -p 2200
 
 After this you can use `dockerCmd` command that points to localhost, just as
 Swarm managers were running on your development machine:
