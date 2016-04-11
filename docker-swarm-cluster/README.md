@@ -37,7 +37,7 @@ an [Avabilability Set][av-set] to achieve the highest uptime.
 
 Each Swarm manager VM is of size `Standard_A0` as they are not running any
 workloads except the Swarm Manager and Consul containers. Manager node VMs have
-static private IP addresses `10.0.0.4`, `10.0.0.5` and `10.0.0.6` and they are
+static private IP addresse in the `172.16.0.0/24` subnet `172.16.0.4` they are
 in the same [Virtual Network][az-vnet] as Swarm nodes.
 
 Swarm managers choose a leader among themselves and coordinate through
@@ -73,7 +73,7 @@ authenticating into master). Alternatively, you can establish an SSH Tunnel on
 your development machine and directly connect to the worker VM using its private
 IP address.
 
-Virtual Machines of Swarm worker nodes have private IP addresses `192.168.0.*`
+Virtual Machines of Swarm worker nodes have private IP addresses `10.0.0.*`
 and are in the same [Virtual Network][az-vnet] with the manager nodes. These
 nodes are in an [Availability Set][av-set] to ensure highest uptime and fault
 domains.

@@ -15,10 +15,10 @@ digraph{
 			node[shape=record];
 			label="Swarm Nodes Availability Set";
 
-			n0 [label="{<f0>swarm-node-0|<f1>192.168.0.*|<f2>CoreOS|<f3>Standard_D2}"];
-			n1 [label="{<f0>swarm-node-1|<f1>192.168.0.*|<f2>CoreOS|<f3>Standard_D2}"];
-			n2 [label="{<f0>swarm-node-2|<f1>192.168.0.*|<f2>CoreOS|<f3>Standard_D2}"];
-			n3 [label="{<f0>swarm-node-3|<f1>192.168.0.*|<f2>CoreOS|<f3>Standard_D2}"];
+			n0 [label="{<f0>swarm-node-0|<f1>10.0.0.*|<f2>CoreOS|<f3>Standard_A0}"];
+			n1 [label="{<f0>swarm-node-1|<f1>10.0.0.*|<f2>CoreOS|<f3>Standard_A0}"];
+			n2 [label="{<f0>swarm-node-2|<f1>10.0.0.*|<f2>CoreOS|<f3>Standard_A0}"];
+			n3 [label="{<f0>swarm-node-3|<f1>10.0.0.*|<f2>CoreOS|<f3>Standard_A0}"];
 			nx [label="{...|...|...|...}"];
 		}
 
@@ -26,9 +26,7 @@ digraph{
 			style=normal;
 			node[shape=record];
 			label="Swarm Managers Availability Set";
-			m0 [label="{<f0>swarm-m-0|<f1>10.0.0.4|<f2>CoreOS|<f3>Standard_A1}"];
-			m1 [label="{<f0>swarm-m-1|<f1>10.0.0.5|<f2>CoreOS|<f3>Standard_A1}"];
-			m2 [label="{<f0>swarm-m-2|<f1>10.0.0.6|<f2>CoreOS|<f3>Standard_A1}"];
+			m0 [label="{<f0>swarm-m-0|<f1>172.16.0.4|<f2>CoreOS|<f3>Standard_A0}"];
 		}
 	}
 
